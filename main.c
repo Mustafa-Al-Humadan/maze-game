@@ -298,3 +298,13 @@ void computer_move_hard() {
         police_pos.col = best_moves[choice][1];
     }
 }
+
+// Check if player won
+bool check_win() {
+    return (thief_pos.row == ESCAPE_ROW && thief_pos.col == ESCAPE_COL);
+}
+
+// Check if player lost
+bool check_lose() {
+    return (thief_pos.row == police_pos.row && thief_pos.col == police_pos.col);
+}
