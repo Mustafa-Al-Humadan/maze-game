@@ -104,7 +104,6 @@ void initialize_maze() {
     last_police_pos.col = -1;
 }
 
-
 // The Manhattan distance between two positions
 int manhattan_distance(Position p1, Position p2) {
     return abs(p1.row - p2.row) + abs(p1.col - p2.col);
@@ -262,6 +261,33 @@ void get_player_move() {
     }
 }
 
+// Computer move for easy mode (random)
+void computer_move_easy() {
+    int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int valid_moves[4][2];
+    int count = 0;
+    
+    // Find all valid moves
+    for (int i = 0; i < 4; i++) {
+        int new_row = police_pos.row + directions[i][0];
+        int new_col = police_pos.col + directions[i][1];
+        
+        if (is_valid_move(new_row, new_col)) {
+            valid_moves[count][0] = new_row;
+            valid_moves[count][1] = new_col;
+            count++;
+        }
+    }
+    
+    // Pick a random valid move
+    if (count > 0) {
+        int choice = rand() % count;
+        maze[police_pos.row][police_pos.col] = EMPTY;
+        police_pos.row = valid_moves[choice][0];
+        police_pos.col = valid_moves[choice][1];
+    }
+}
+
 // Computer move for hard mode (optimal pathfinding)
 void computer_move_hard() {
     int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
@@ -364,6 +390,7 @@ bool play_again() {
     scanf(" %c", &choice);
     return (choice == 'Y' || choice == 'y');
 }
+
 // Main game loop
 void play_game() {
     // Get difficulty
@@ -427,5 +454,3 @@ int main() {
     
     return 0;
 }
-
-
