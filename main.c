@@ -95,3 +95,43 @@ bool is_valid_move(int row, int col) {
     }
     return true;
 }
+
+// Place thief and policeman randomly with distance constraints
+void place_entities() {
+    Position escape_pos = {ESCAPE_ROW, ESCAPE_COL};
+    bool valid_placement = false;
+    
+    while (!valid_placement) {
+        // Randomly place thief
+        thief_pos.row = rand() % SIZE;
+        thief_pos.col = rand() % SIZE;
+        
+        // Check if thief position is valid
+        if (maze[thief_pos.row][thief_pos.col] != EMPTY) {
+            continue;
+        }
+        
+        // Check distance from thief to escape point
+        if (manhattan_distance(thief_pos, escape_pos) < MIN_DISTANCE) {
+            continue;
+        }
+        
+        // Randomly place policeman
+        police_pos.row = rand() % SIZE;
+        police_pos.col = rand() % SIZE;
+        
+        // Check if policeman position is valid
+        if (maze[police_pos.row][police_pos.col] != EMPTY) {
+            continue;
+        }
+        
+        // Check distance between thief and policeman
+        if (manhattan_distance(thief_pos, police_pos) >= MIN_DISTANCE) {
+            valid_placement = true;
+        }
+    }
+    
+    // Mark positions in maze
+    maze[thief_pos.row][thief_pos.col] = THIEF;
+    maze[police_pos.row][police_pos.col] = POLICEMAN;
+}
