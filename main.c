@@ -231,3 +231,70 @@ void get_player_move() {
         }
     }
 }
+
+// Computer move for hard mode (optimal pathfinding)
+void computer_move_hard() {
+    int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int best_moves[4][2];
+    int best_count = 0;
+    int min_distance = SIZE * SIZE;
+    
+    // Save current position for loop prevention
+    Position current = police_pos;
+    
+    // Find all moves with minimum distance to thief
+    for (int i = 0; i < 4; i++) {
+        int new_row = police_pos.row + directions[i][0];
+        int new_col = police_pos.col + directions[i][1];
+        
+        if (is_valid_move(new_row, new_col)) {
+            // Avoid going back to last position (prevent loops)
+            if (new_row == last_police_pos.row && new_col == last_police_pos.col) {
+                continue;
+            }
+            
+            Position new_pos = {new_row, new_col};
+            int dist = manhattan_distance(new_pos, thief_pos);
+            
+            if (dist < min_distance) {
+                min_distance = dist;
+                best_count = 0;
+                best_moves[best_count][0] = new_row;
+                best_moves[best_count][1] = new_col;
+                best_count++;
+            } else if (dist == min_distance) {
+                best_moves[best_count][0] = new_row;
+                best_moves[best_count][1] = new_col;
+                best_count++;
+            }
+        }
+    }
+    
+    // If no moves avoid the last position, allow any valid move
+    if (best_count == 0) {
+        for (int i = 0; i < 4; i++) {
+            int new_row = police_pos.row + directions[i][0];
+            int new_col = police_pos.col + directions[i][1];
+            
+            if (is_valid_move(new_row, new_col)) {
+                Position new_pos = {new_row, new_col};
+                int dist = manhattan_distance(new_pos, thief_pos);
+                
+                if (dist <= min_distance) {
+                    best_moves[best_count][0] = new_row;
+                    best_moves[best_count][1] = new_col;
+                    best_count++;
+                }
+            }
+        }
+    }
+    
+    // Pick a random move among the best moves
+    if (best_count > 0) {
+        int choice = rand() % best_count;
+        maze[police_pos.row][police_pos.col] = EMPTY;
+        last_police_pos = current;
+        police_pos.row = best_moves[choice][0];
+        police_pos.col = best_moves[choice][1];
+    }
+}
