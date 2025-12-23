@@ -45,7 +45,7 @@ bool play_again();
 
 // Initialize the maze with walls
 void initialize_maze() {
-    // First, we set all cells to empty
+    // First, set all cells to empty
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             maze[i][j] = EMPTY;
@@ -53,24 +53,48 @@ void initialize_maze() {
     }
     
     // Add walls to create the maze pattern
-    // Horizontal walls
-    for (int j = 2; j < 7; j++) maze[2][j] = WALL;
-    for (int j = 9; j < 14; j++) maze[2][j] = WALL;
+    // Top-left region walls
+    for (int i = 1; i <= 3; i++) maze[i][3] = WALL;
+    for (int j = 1; j <= 3; j++) maze[3][j] = WALL;
     
-    for (int j = 2; j < 7; j++) maze[5][j] = WALL;
-    for (int j = 9; j < 14; j++) maze[5][j] = WALL;
+    // Top-center walls
+    for (int i = 1; i <= 3; i++) maze[i][7] = WALL;
+    for (int i = 1; i <= 3; i++) maze[i][8] = WALL;
     
-    for (int j = 2; j < 7; j++) maze[8][j] = WALL;
-    for (int j = 9; j < 14; j++) maze[8][j] = WALL;
+    // Top-right region walls
+    for (int i = 1; i <= 3; i++) maze[i][12] = WALL;
+    for (int j = 12; j <= 14; j++) maze[3][j] = WALL;
     
-    for (int j = 2; j < 7; j++) maze[11][j] = WALL;
-    for (int j = 9; j < 14; j++) maze[11][j] = WALL;
+    // Middle-left walls
+    for (int i = 5; i <= 7; i++) maze[i][3] = WALL;
+    for (int j = 1; j <= 3; j++) maze[7][j] = WALL;
     
-    for (int j = 2; j < 7; j++) maze[13][j] = WALL;
-    for (int j = 9; j < 14; j++) maze[13][j] = WALL;
+    // Middle-center vertical barrier
+    for (int i = 5; i <= 10; i++) maze[i][7] = WALL;
+    for (int i = 5; i <= 10; i++) maze[i][8] = WALL;
     
-    // Vertical walls
-    for (int i = 2; i < 14; i++) maze[i][7] = WALL;
+    // Middle-right walls
+    for (int i = 5; i <= 7; i++) maze[i][12] = WALL;
+    for (int j = 12; j <= 14; j++) maze[7][j] = WALL;
+    
+    // Bottom-left region walls
+    for (int i = 12; i <= 14; i++) maze[i][3] = WALL;
+    for (int j = 1; j <= 3; j++) maze[12][j] = WALL;
+    
+    // Bottom-center walls
+    for (int i = 12; i <= 14; i++) maze[i][7] = WALL;
+    for (int i = 12; i <= 14; i++) maze[i][8] = WALL;
+    
+    // Bottom-right region walls
+    for (int i = 12; i <= 14; i++) maze[i][12] = WALL;
+    for (int j = 12; j <= 14; j++) maze[12][j] = WALL;
+    
+    // Additional horizontal connectors
+    for (int j = 5; j <= 6; j++) maze[5][j] = WALL;
+    for (int j = 9; j <= 10; j++) maze[5][j] = WALL;
+    
+    for (int j = 5; j <= 6; j++) maze[10][j] = WALL;
+    for (int j = 9; j <= 10; j++) maze[10][j] = WALL;
     
     // Set escape point
     maze[ESCAPE_ROW][ESCAPE_COL] = ESCAPE;
@@ -79,6 +103,7 @@ void initialize_maze() {
     last_police_pos.row = -1;
     last_police_pos.col = -1;
 }
+
 
 // The Manhattan distance between two positions
 int manhattan_distance(Position p1, Position p2) {
@@ -397,3 +422,4 @@ int main() {
     
     return 0;
 }
+
