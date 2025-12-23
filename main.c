@@ -334,3 +334,66 @@ bool play_again() {
     scanf(" %c", &choice);
     return (choice == 'Y' || choice == 'y');
 }
+// Main game loop
+void play_game() {
+    // Get difficulty
+    difficulty = get_difficulty();
+    
+    // Initialize maze
+    initialize_maze();
+    place_entities();
+    
+    // Game loop
+    bool game_over = false;
+    while (!game_over) {
+        draw_maze();
+        
+        // Player's turn
+        get_player_move();
+        
+        // Check win condition
+        if (check_win()) {
+            draw_maze();
+            printf("\nYou won! You escaped!\n");
+            game_over = true;
+            continue;
+        }
+        
+        // Check lose condition after player move
+        if (check_lose()) {
+            draw_maze();
+            printf("\nYou lost! The policeman caught you!\n");
+            game_over = true;
+            continue;
+        }
+        
+        // Computer's turn
+        if (difficulty == 1) {
+            computer_move_easy();
+        } else {
+            computer_move_hard();
+        }
+        
+        // Check lose condition after computer move
+        if (check_lose()) {
+            draw_maze();
+            printf("\nYou lost! The policeman caught you!\n");
+            game_over = true;
+        }
+    }
+}
+
+// Main function
+int main() {
+    // Seed random number generator
+    srand(time(NULL));
+    
+    // Game loop
+    do {
+        play_game();
+    } while (play_again());
+    
+    printf("\nThank you for playing! Goodbye!\n\n");
+    
+    return 0;
+}
