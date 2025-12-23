@@ -135,3 +135,50 @@ void place_entities() {
     maze[thief_pos.row][thief_pos.col] = THIEF;
     maze[police_pos.row][police_pos.col] = POLICEMAN;
 }
+
+// Draw the maze to the screen
+void draw_maze() {
+    system("clear");
+    
+    printf("\n  Maze Chase Game - %s Mode\n", difficulty == 1 ? "Easy" : "Hard");
+    printf("  T = Thief (You)  |  P = Policeman  |  E = Escape Point\n\n");
+    
+    // Top border
+    printf("  +");
+    for (int j = 0; j < SIZE; j++) {
+        printf("--");
+    }
+    printf("+\n");
+    
+    // Maze content
+    for (int i = 0; i < SIZE; i++) {
+        printf("%2d|", i + 1);
+        for (int j = 0; j < SIZE; j++) {
+            if (i == thief_pos.row && j == thief_pos.col) {
+                printf(" T");
+            } else if (i == police_pos.row && j == police_pos.col) {
+                printf(" P");
+            } else if (maze[i][j] == WALL) {
+                printf("██");
+            } else if (i == ESCAPE_ROW && j == ESCAPE_COL) {
+                printf(" E");
+            } else {
+                printf("  ");
+            }
+        }
+        printf("|\n");
+    }
+    
+    // Bottom border
+    printf("  +");
+    for (int j = 0; j < SIZE; j++) {
+        printf("--");
+    }
+    printf("+\n");
+    
+    printf("   ");
+    for (int j = 0; j < SIZE; j++) {
+        printf("%2d", j + 1);
+    }
+    printf("\n\n");
+}
