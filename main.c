@@ -182,3 +182,52 @@ void draw_maze() {
     }
     printf("\n\n");
 }
+
+// Get player's move
+void get_player_move() {
+    char move;
+    bool valid = false;
+    
+    while (!valid) {
+        printf("Your move (W=up, S=down, A=left, D=right): ");
+        scanf(" %c", &move);
+        
+        int new_row = thief_pos.row;
+        int new_col = thief_pos.col;
+        
+        switch (move) {
+            case 'w':
+            case 'W':
+                new_row--;
+                break;
+            case 's':
+            case 'S':
+                new_row++;
+                break;
+            case 'a':
+            case 'A':
+                new_col--;
+                break;
+            case 'd':
+            case 'D':
+                new_col++;
+                break;
+            default:
+                printf("Invalid input! Use W, A, S, or D.\n");
+                continue;
+        }
+        
+        if (is_valid_move(new_row, new_col)) {
+            // Update maze
+            maze[thief_pos.row][thief_pos.col] = EMPTY;
+            if (new_row == ESCAPE_ROW && new_col == ESCAPE_COL) {
+                maze[new_row][new_col] = ESCAPE;
+            }
+            thief_pos.row = new_row;
+            thief_pos.col = new_col;
+            valid = true;
+        } else {
+            printf("Invalid move! You cannot go through walls or out of bounds.\n");
+        }
+    }
+}
