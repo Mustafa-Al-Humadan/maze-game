@@ -84,3 +84,14 @@ void initialize_maze() {
 int manhattan_distance(Position p1, Position p2) {
     return abs(p1.row - p2.row) + abs(p1.col - p2.col);
 }
+
+// Check if a move is valid (within bounds and not a wall)
+bool is_valid_move(int row, int col) {
+    if (row < 0 || row >= SIZE || col < 0 || col >= SIZE) {
+        return false;
+    }
+    if (maze[row][col] == WALL) {
+        return false;
+    }
+    return true;
+}
