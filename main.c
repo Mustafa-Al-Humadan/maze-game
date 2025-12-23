@@ -79,3 +79,8 @@ void initialize_maze() {
     last_police_pos.row = -1;
     last_police_pos.col = -1;
 }
+
+// The Manhattan distance between two positions
+int manhattan_distance(Position p1, Position p2) {
+    return abs(p1.row - p2.row) + abs(p1.col - p2.col);
+}
