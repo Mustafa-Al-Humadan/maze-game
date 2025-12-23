@@ -308,3 +308,21 @@ bool check_win() {
 bool check_lose() {
     return (thief_pos.row == police_pos.row && thief_pos.col == police_pos.col);
 }
+
+// Get difficulty level from user
+int get_difficulty() {
+    int choice;
+    printf("\n=== Maze Chase Game ===\n");
+    printf("Select difficulty level:\n");
+    printf("1. Easy (Random policeman moves)\n");
+    printf("2. Hard (Smart policeman)\n");
+    printf("Enter your choice (1 or 2): ");
+    scanf("%d", &choice);
+    
+    while (choice != 1 && choice != 2) {
+        printf("Invalid choice! Enter 1 or 2: ");
+        scanf("%d", &choice);
+    }
+    
+    return choice;
+}
