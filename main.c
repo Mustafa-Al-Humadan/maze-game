@@ -169,41 +169,46 @@ void draw_maze() {
     printf("  T = Thief (You)  |  P = Policeman  |  E = Escape Point\n\n");
     
     // Top border
-    printf("  +");
+    printf("    ");
     for (int j = 0; j < SIZE; j++) {
-        printf("--");
+        printf("+---");
     }
     printf("+\n");
     
-    // Maze content
+    // Maze content with cell boundaries
     for (int i = 0; i < SIZE; i++) {
-        printf("%2d|", i + 1);
+        // Row number
+        printf(" %2d ", i + 1);
+        
+        // Cell content
         for (int j = 0; j < SIZE; j++) {
+            printf("|");
             if (i == thief_pos.row && j == thief_pos.col) {
-                printf(" T");
+                printf(" T ");
             } else if (i == police_pos.row && j == police_pos.col) {
-                printf(" P");
+                printf(" P ");
             } else if (maze[i][j] == WALL) {
-                printf("██");
+                printf(" W ");
             } else if (i == ESCAPE_ROW && j == ESCAPE_COL) {
-                printf(" E");
+                printf(" E ");
             } else {
-                printf("  ");
+                printf("   ");
             }
         }
         printf("|\n");
+        
+        // Horizontal line after each row
+        printf("    ");
+        for (int j = 0; j < SIZE; j++) {
+            printf("+---");
+        }
+        printf("+\n");
     }
     
-    // Bottom border
-    printf("  +");
+    // Column numbers
+    printf("    ");
     for (int j = 0; j < SIZE; j++) {
-        printf("--");
-    }
-    printf("+\n");
-    
-    printf("   ");
-    for (int j = 0; j < SIZE; j++) {
-        printf("%2d", j + 1);
+        printf("  %2d", j + 1);
     }
     printf("\n\n");
 }
@@ -422,4 +427,5 @@ int main() {
     
     return 0;
 }
+
 
