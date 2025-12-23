@@ -14,3 +14,31 @@
 #define THIEF 2
 #define POLICEMAN 3
 #define ESCAPE 4
+
+// Structure to hold positions
+typedef struct {
+    int row;
+    int col;
+} Position;
+
+// Global variables
+int maze[SIZE][SIZE];
+Position thief_pos;
+Position police_pos;
+Position last_police_pos;
+int difficulty; // 1 for easy, 2 for hard
+
+// Function prototypes
+void initialize_maze();
+void draw_maze();
+int manhattan_distance(Position p1, Position p2);
+bool is_valid_move(int row, int col);
+void place_entities();
+void get_player_move();
+void computer_move_easy();
+void computer_move_hard();
+bool check_win();
+bool check_lose();
+void play_game();
+int get_difficulty();
+bool play_again();
